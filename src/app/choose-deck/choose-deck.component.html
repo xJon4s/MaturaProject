@@ -1,0 +1,31 @@
+<div fxLayout="column">
+  <div style="padding: 3%;" fxLayout="row">
+    <a routerLink="/game-setup"
+      ><button mat-fab color="primary">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </a>
+  </div>
+
+  <div style="width: 100%;" fxLayout="row" fxLayoutAlign="space-around center">
+    <h1 fxFlex style="text-align: center;">Pick a deck for {{ aplayer?.nname }}</h1>
+  </div>
+
+  <div style="height: 30%;" fxLayoutAlign="center start">
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Search commander</mat-label>
+        <input matInput
+               aria-label="commander"
+               [matAutocomplete]="auto"
+               [formControl]="stateCtrl">
+        <mat-autocomplete #auto="matAutocomplete" >
+          <mat-option *ngFor="let deck of filteredDecks | async" [value]="deck.commander" (click)="addDeck(deck)">
+            <span>{{deck.commander}}</span> |
+            <small>{{deck.name}}</small>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+</div>

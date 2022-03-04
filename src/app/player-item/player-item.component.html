@@ -1,0 +1,43 @@
+<div>
+  <div fxLayout="row">
+    <mat-card
+      style="
+        width: 90%;
+        background-color: rgb(233, 232, 243);
+        margin-left: 5%;
+        margin-right: 5%;
+      "
+      FxFlex
+    >
+      <div FxLayout="column">
+        <mat-card-title
+          >{{ aplayer.nname
+          }}<span style="font-weight: normal"> playing with </span>
+          {{ adeck.commander }}</mat-card-title
+        >
+        <mat-card-subtitle
+          >{{ aplayer.lname }} {{ aplayer.fname }}</mat-card-subtitle
+        >
+      </div>
+      <div fxFlex fxLayoutAlign="end start">
+        <button
+          mat-fab
+          color="primary"
+          aria-label="Example icon button with a bookmark icon"
+          (click)="karl()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+    <!--
+<mat-divider *ngIf="this.player.pid!=players[players.length-1].pid"></mat-divider> -->
+  </div>
+
+  <div
+    *ngIf="this.player.pid != gameplayers[gameplayers.length - 1].pid"
+    FxLayout="center center"
+  >
+    <mat-divider fxFlex style="margin: 10px"></mat-divider>
+  </div>
+</div>

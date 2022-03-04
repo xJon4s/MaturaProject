@@ -1,0 +1,8 @@
+<div *ngIf="gameplayers?.length == 2">
+  <div style="width: 100%; height: 50vh; transform: rotate(180deg)">
+    <mp-in-game-player [spieler]="gameplayers[0]" [index]="0"></mp-in-game-player>
+  </div>
+  <div style="width: 100%; height: 50vh;">
+    <mp-in-game-player [spieler]="gameplayers[1]" [index]="1"></mp-in-game-player>
+  </div>
+</div>

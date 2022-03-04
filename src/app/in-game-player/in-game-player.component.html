@@ -1,0 +1,27 @@
+<mat-card style="height: 100%; width: 100%; background-color: blanchedalmond;" fxLayout="row" fxLayoutAlign="center center" >
+  <div fxLayout="column" fxLayoutAlign="space-between center" style="height: 80%; width: 45%;">
+    <button mat-icon-button style="height: 30%; width: 100%;" disabled="{{buttonsdisabled}}" (click)="damage(1)">
+      <mat-icon style="transform: scale(3)">keyboard_arrow_up</mat-icon>
+    </button>
+    <div style="font-size: xx-large;display: flex; align-items: center;" fxFlex><p style="font-weight: bold;">1</p></div>
+    <button mat-icon-button style="height: 30%; width: 100%;" disabled="{{buttonsdisabled}}" (click)="damage(-1)" fxFlex>
+      <mat-icon style="transform: scale(3)">keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex style="height: 80%;">
+    <div fxFlex><p style="font-size: xx-large">{{spielera.nname}}</p></div>
+    <div style="font-size: xxx-large; text-align: center; font-weight: bold;" fxFlex>{{pointsdisplayed}}</div>
+    <button mat-icon-button (click)="fight()" disabled="{{!buttonsdisabled}}"> <mat-icon svgIcon="{{iconname}}" style="transform: scale(3);" fxFlex></mat-icon></button>
+  </div>
+
+  <div fxLayout="column" fxLayoutAlign="space-between center" style="height: 80%; width: 45%;">
+    <button mat-icon-button style="height: 30%; width: 100%;" disabled="{{buttonsdisabled}}" (click)="damage(5)" fxFlex>
+      <mat-icon style="transform: scale(3)">keyboard_arrow_up</mat-icon>
+    </button>
+    <div style="font-size: xx-large;display: flex; align-items: center;" fxFlex><p style="font-weight: bold;">5</p></div>
+    <button mat-icon-button style="height: 30%; width: 100%;" disabled="{{buttonsdisabled}}" (click)="damage(-5)" fxFlex>
+      <mat-icon style="transform: scale(3)">keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+</mat-card>

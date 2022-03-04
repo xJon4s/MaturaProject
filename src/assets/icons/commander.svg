@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg version="1.2" baseProfile="tiny" width="84.61mm" height="86.37mm" viewBox="1839 1663 8461 8637" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+ <g visibility="visible" id="Slide_1">
+  <g id="Drawing_1">
+   <path fill="rgb(255,255,255)" stroke="none" d="M 1846,10293 L 1846,8361 2057,8255 2057,4345 4220,3366 4220,2595 6069,1670 7918,2595 7918,3366 10082,4345 10082,8255 10293,8361 10293,10293 1846,10293 Z"/>
+   <path fill="rgb(0,0,0)" stroke="none" d="M 9641,4607 L 7978,3855 7978,7090 9641,7843 9641,4607 Z M 4161,3855 L 2499,4607 2499,7843 4161,7090 4161,3855 Z M 6069,2141 L 4662,2845 4662,6850 6069,6145 7477,6850 7477,2845 6069,2141 Z M 2287,8612 L 6069,6714 9852,8612 9852,9877 2287,9877 2287,8612 Z"/>
+   <rect fill="none" stroke="none" x="1832" y="1657" width="8476" height="8650"/>
+   <rect fill="none" stroke="none" x="1839" y="1663" width="8462" height="8638"/>
+  </g>
+ </g>
+</svg>

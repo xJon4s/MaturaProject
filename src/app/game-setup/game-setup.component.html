@@ -1,0 +1,44 @@
+<div fxLayout="column">
+<div style="padding: 3%; background-color: rgb(255, 255, 255)" fxLayout="row">
+  <!--Zurueck Knopf-->
+  <a routerLink="/home"
+    ><button mat-fab color="primary">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </a>
+  <!--Spiel starten Knopf-->
+  <div style="width: 95%; margin-left: 5%;" fxLayoutAlign="center center">
+    <button (click)="startGame()" mat-raised-button color="primary;" style="width: 100%; height: 100%;" fxFlexAlign="auto">Start game with {{ gameplayers == undefined ? "0" : gameplayers.length }} players</button>
+  </div>
+</div>
+<!--Ueberschrift-->
+<div style="width: 100%;" fxLayout="row" fxLayoutAlign="space-around center">
+  <h1 fxFlex style="text-align: center;">Pick players</h1>
+</div>
+
+<div style="background-color: rgb(255, 255, 255); height: 30%;" fxLayoutAlign="center start">
+  <form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill" (mouseenter)="karljonas()">
+      <mat-label (mouseenter)="karljonas()">Search nickname</mat-label>
+      <input matInput
+             aria-label="nickname"
+             [matAutocomplete]="auto"
+             [formControl]="stateCtrl"
+             (mouseenter)="karljonas()">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)='addPlayer($event.option.value)'>
+        <mat-option *ngFor="let player of filteredPlayers | async" [value]="player.nname">
+          <span>{{player.nname}}</span> |
+          <small>{{player.fname}} {{player.lname}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
+
+<mat-divider style="margin:10px"></mat-divider>
+
+<div style="background-color: rgb(255, 255, 255);">
+  <mp-player-item *ngFor="let item of gameplayers" [player]="item"></mp-player-item>
+</div>
+
+</div>
