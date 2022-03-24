@@ -129,6 +129,7 @@ export class GameSetupComponent implements OnInit {
   }
 
   startGame():void {
+    this.mpp.gameplayersalive = this.mpp.gameplayers.length;
     this.router.navigate(['/game'])
   }
 }

@@ -3,9 +3,9 @@ export class Gameplayer {
   private _did:number;
   private _dmg:number = 0;
   private _kills:number = 0;
-  private _diedturn:number= -1;
   private _lp:number= 40;
   private _infect:number = 10;
+  public alive = true;
   public _cdmg:number[] = [];
 
   constructor(pid:number,did:number) {
@@ -50,8 +50,8 @@ export class Gameplayer {
     this._kills++;
   }
 
-  die(diedturn:number):void{
-    this._diedturn=diedturn;
+  die():void{
+    this.alive = false;
   }
 
   get pid():number{
@@ -70,7 +70,4 @@ export class Gameplayer {
     return this._kills;
   }
 
-  get diedturn():number{
-    return this._diedturn;
-  }
 }

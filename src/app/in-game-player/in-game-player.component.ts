@@ -17,6 +17,7 @@ import { DialogData } from '../player-item/player-item.component';
 export class InGamePlayerComponent implements OnInit {
   @Input() spieler!: Gameplayer;
   @Input() index!: number;
+  @Input() big!: boolean;
   spielera!: Player;
   gameplayers!: Gameplayer[];
   players!: Player[];
@@ -27,6 +28,7 @@ export class InGamePlayerComponent implements OnInit {
   constructor(private mpp: MppService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    console.log(this.spieler.pid + '  ' + this.big);
     this.gameplayers = this.mpp.getGameplayers();
     this.players = this.mpp.getPlayers();
     this.pointsdisplayed = this.spieler.lp;
@@ -39,7 +41,11 @@ export class InGamePlayerComponent implements OnInit {
       switch (res) {
         case 0:
           //When active player has choosen his action
-          if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
+          if (
+            this.mpp.activePlayer?.pid !== this.spieler.pid &&
+            this.mpp.activeAction !== 4 &&
+            this.spieler.alive
+          ) {
             this.buttonsdisabled = false;
           }
 
@@ -49,26 +55,53 @@ export class InGamePlayerComponent implements OnInit {
               this.pointsdisplayed = this.spieler.lp;
               break;
             case 1:
-              this.pointsdisplayed = this.spieler.getCdmg(this.mpp.activePlayerIndex as number);;
+              this.pointsdisplayed = this.spieler.getCdmg(
+                this.mpp.activePlayerIndex as number
+              );
               break;
             case 2:
               this.pointsdisplayed = this.spieler.infect;
               break;
 
+            case 3:
+              this.pointsdisplayed = this.spieler.infect;
+              break;
+
+            case 4:
+              if(
+                this.mpp.activePlayer?.pid == this.spieler.pid){
+                  this.spieler.deltDmg(-this.spieler.lp);
+                  this.iconname = "skull";
+                  this.spieler.die();
+                  this.mpp.gameplayersalive -= 1;
+                }
+              break;
+
             default:
               break;
           }
-
           break;
 
         case 1:
           //When active player is finished
-          this.mpp.activePlayer?.dealsDmg(0 - this.dmgToMe);
+          this.mpp.activePlayer?.dealsDmg(-this.dmgToMe);
           this.dmgToMe = 0;
           if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
             this.buttonsdisabled = true;
           }
-          this.pointsdisplayed=this.spieler.lp;
+          const min = Math.min.apply(Math, this.spieler._cdmg);
+          console.log(min);
+          if(this.spieler.lp < 1 || this.spieler.infect < 1 || min < 1){
+            this.spieler.deltDmg(-this.spieler.lp);
+            this.iconname = "skull";
+            this.spieler.die();
+            this.mpp.gameplayersalive -= 1;
+          }
+          this.pointsdisplayed = this.spieler.lp;
+          if(this.mpp.gameplayersalive < 2){
+            console.log("fertig");
+            console.log("fertig");
+          }
           break;
         case 2:
           break;
@@ -84,8 +117,6 @@ export class InGamePlayerComponent implements OnInit {
 
   //Deals dmg via arrowwup or arrow down
   damage(dmg: number): void {
-
-
     switch (this.mpp.activeAction) {
       case 0:
         this.spieler.deltDmg(dmg);
@@ -95,7 +126,9 @@ export class InGamePlayerComponent implements OnInit {
       case 1:
         this.spieler.deltCdmg(this.mpp.activePlayerIndex as number, dmg);
         this.dmgToMe += dmg;
-        this.pointsdisplayed = this.spieler.getCdmg(this.mpp.activePlayerIndex as number);
+        this.pointsdisplayed = this.spieler.getCdmg(
+          this.mpp.activePlayerIndex as number
+        );
         break;
       case 2:
         this.spieler.deltInfect(dmg);
@@ -122,13 +155,15 @@ export class InGamePlayerComponent implements OnInit {
           this.mpp.activeAction = res;
           this.mpp.activePlayer = this.spieler;
           this.mpp.activePlayerIndex = this.index;
-          this.mpp.emita(0);
           this.iconname = 'finish';
+          this.mpp.emita(0);
         } else {
           //console.log("theoretisch 2tes");
         }
       });
-    } else {
+    } else if(this.iconname == 'skull'){
+
+    }else{
       this.mpp.emita(1);
       await new Promise((f) => setTimeout(f, 500));
       this.iconname = 'sword';

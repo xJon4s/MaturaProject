@@ -1,8 +1,12 @@
 <h1 mat-dialog-title>Please choose the action type</h1>
-<div mat-dialog-content fxLayout="row" fxLayoutAlign="space-around center" style="height: 160px;">
+<div mat-dialog-content fxLayout="row" fxLayoutAlign="space-around center" style="height: 100px;">
   <button mat-icon-button fxFlex (click)="choose(0)"> <mat-icon svgIcon="sword" style="transform: scale(3);"></mat-icon></button>
   <button mat-icon-button fxFlex (click)="choose(1)"> <mat-icon svgIcon="commander" style="transform: scale(3);"></mat-icon></button>
   <button mat-icon-button fxFlex (click)="choose(2)"> <mat-icon svgIcon="infect" style="transform: scale(3);"></mat-icon></button>
+</div>
+<div mat-dialog-content fxLayout="row" fxLayoutAlign="space-around center" style="height: 100px;">
+  <button mat-icon-button fxFlex (click)="choose(3)"> <mat-icon svgIcon="combo" style="transform: scale(3);"></mat-icon></button>
+  <button mat-icon-button fxFlex (click)="choose(4)"> <mat-icon svgIcon="surrender" style="transform: scale(3);"></mat-icon></button>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>

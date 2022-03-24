@@ -33,6 +33,7 @@ export class MppService {
   ];
 
   gameplayers!: Array<Gameplayer>;
+  gameplayersalive!:number;
   activePlayer:Gameplayer | null = null;
   activePlayerIndex:number | null = null;
   activeAction:number | null = null;

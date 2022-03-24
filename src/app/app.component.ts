@@ -24,9 +24,7 @@ export class AppComponent {
 
     this.matIconRegistry.addSvgIcon(
       'commander',
-      this.domSanitzer.bypassSecurityTrustResourceUrl(
-        'assets/icons/commander.svg'
-      )
+      this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/commander.svg')
     );
     this.matIconRegistry.addSvgIcon(
       'finish',
@@ -35,6 +33,19 @@ export class AppComponent {
     this.matIconRegistry.addSvgIcon(
       'cancel',
       this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/cancel.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'combo',
+      this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/combo.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'skull',
+      this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/skull.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'surrender',
+      this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/surrender.svg'
+      )
     );
   }
 }
