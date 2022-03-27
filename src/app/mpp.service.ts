@@ -78,4 +78,19 @@ export class MppService {
       }
     }
   }
+
+  findWinnerGamePlayer(): Gameplayer | null{
+    const gameplayersalive = this.gameplayers.filter((playerssss) => playerssss.alive);
+    if(gameplayersalive.length == 1){
+      return gameplayersalive[0];
+    }else{
+      return null;
+    }
+
+  }
+
+  findWinnerPlayer(): Player{
+    const a:number = this.gameplayers.filter((playerssss) => playerssss.alive)[0].pid;
+    return this.players.filter((playersss) => playersss.pid == a)[0];
+  }
 }

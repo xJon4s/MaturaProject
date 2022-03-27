@@ -1,0 +1,15 @@
+<body style="width: 250px;">
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <p fxFlex style="text-align: center;">Congratulations</p>
+    <h1 fxFlex style="text-align: center;">{{ winnerp.nname }}</h1>
+    <p fxFlex style="text-align: center;">for the win</p>
+  </div>
+
+  <div>
+    <div mat-dialog-content fxLayout="row" fxLayoutAlign="space-around center" style="height: 100px;">
+      <button mat-raised-button fxFlex color="primary" style="margin: 5px;" (click)="seeStats()">See statistics </button>
+      <button mat-raised-button fxFlex color="primary" (click)="finish()"> Finish</button>
+    </div>
+  </div>
+
+</body>

@@ -21,7 +21,7 @@ import { ReactiveFormsModule} from '@angular/forms';
 import { ChooseDeckComponent } from './choose-deck/choose-deck.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { GameComponent } from './game/game.component';
-import { InGamePlayerComponent, ChooseActionType } from './in-game-player/in-game-player.component';
+import { InGamePlayerComponent, ChooseActionType, GameFinishDialog } from './in-game-player/in-game-player.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -34,7 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     ChooseDeckComponent,
     GameComponent,
     InGamePlayerComponent,
-    ChooseActionType
+    ChooseActionType,
+    GameFinishDialog
   ],
   entryComponents: [
     ChooseActionType

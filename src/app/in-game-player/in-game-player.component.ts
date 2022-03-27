@@ -1,6 +1,7 @@
+import { Router } from '@angular/router';
 import { Player } from './../player';
 import { Gameplayer } from './../gameplayer';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, EventEmitter } from '@angular/core';
 import { MppService } from '../mpp.service';
 import {
   MatDialog,
@@ -25,7 +26,11 @@ export class InGamePlayerComponent implements OnInit {
   buttonsdisabled: boolean = true;
   dmgToMe: number = 0;
   pointsdisplayed!: number;
-  constructor(private mpp: MppService, public dialog: MatDialog) {}
+  constructor(
+    private mpp: MppService,
+    public dialog: MatDialog,
+    public router:Router
+    ) {}
 
   ngOnInit(): void {
     console.log(this.spieler.pid + '  ' + this.big);
@@ -64,7 +69,7 @@ export class InGamePlayerComponent implements OnInit {
               break;
 
             case 3:
-              this.pointsdisplayed = this.spieler.infect;
+              this.gameFinish();
               break;
 
             case 4:
@@ -74,6 +79,7 @@ export class InGamePlayerComponent implements OnInit {
                   this.iconname = "skull";
                   this.spieler.die();
                   this.mpp.gameplayersalive -= 1;
+                  this.mpp.emita(1);
                 }
               break;
 
@@ -86,9 +92,7 @@ export class InGamePlayerComponent implements OnInit {
           //When active player is finished
           this.mpp.activePlayer?.dealsDmg(-this.dmgToMe);
           this.dmgToMe = 0;
-          if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
-            this.buttonsdisabled = true;
-          }
+
           const min = Math.min.apply(Math, this.spieler._cdmg);
           console.log(min);
           if(this.spieler.lp < 1 || this.spieler.infect < 1 || min < 1){
@@ -98,9 +102,11 @@ export class InGamePlayerComponent implements OnInit {
             this.mpp.gameplayersalive -= 1;
           }
           this.pointsdisplayed = this.spieler.lp;
-          if(this.mpp.gameplayersalive < 2){
-            console.log("fertig");
-            console.log("fertig");
+          if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
+            this.buttonsdisabled = true;
+            if(this.mpp.gameplayersalive < 2){
+              this.gameFinish();
+            }
           }
           break;
         case 2:
@@ -165,7 +171,7 @@ export class InGamePlayerComponent implements OnInit {
 
     }else{
       this.mpp.emita(1);
-      await new Promise((f) => setTimeout(f, 500));
+      await new Promise((f) => setTimeout(f, 100));
       this.iconname = 'sword';
       this.spieler = this.mpp.activePlayer as Gameplayer;
       console.log(this.spieler);
@@ -173,6 +179,20 @@ export class InGamePlayerComponent implements OnInit {
       this.mpp.activePlayerIndex = null;
       this.mpp.activeAction = null;
     }
+  }
+
+  gameFinish() {
+    const dialogRef = this.dialog.open(GameFinishDialog, {
+      autoFocus: false,
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      console.log('closed');
+      if(res === null || res === undefined){
+        this.router.navigate(['/home']);
+      }else{
+
+      }
+    });
   }
 }
 
@@ -186,10 +206,37 @@ export class ChooseActionType {
   ) {}
 
   onNoClick(): void {
-    this.dialogRef.close(null);
+
   }
 
   choose(int: number) {
     this.dialogRef.close(int);
   }
+}
+
+@Component({
+  selector: 'GameFinishDialog',
+  templateUrl: 'GameFinishDialog.html',
+})
+export class GameFinishDialog implements OnInit{
+  winnerg!:Gameplayer;
+  winnerp!:Player;
+  constructor(
+    public dialogRef: MatDialogRef<GameFinishDialog>,
+    public mpp:MppService,
+    public router:Router
+  ) {}
+  ngOnInit(): void {
+    this.winnerg = this.mpp.findWinnerGamePlayer() as Gameplayer;
+    this.winnerp = this.mpp.findWinnerPlayer();
+  }
+
+  finish(){
+    this.dialogRef.close(null);
+  }
+
+  seeStats(){
+    this.dialogRef.close(1);
+  }
+
 }
