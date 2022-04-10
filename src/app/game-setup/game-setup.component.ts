@@ -47,6 +47,10 @@ export class GameSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.mpp.reset){
+      this.mpp.reset = false;
+      window.location.reload();
+    }
     this.getGameplayers();
   }
 
@@ -69,7 +73,7 @@ export class GameSetupComponent implements OnInit {
   isAllreadyInThere(player: Player): boolean {
     console.log('isAlreadyInThere has started');
     let ret: boolean = true;
-    if (this.gameplayers !== undefined) {
+    if (this.gameplayers !== undefined && this.gameplayers !== null) {
       console.log(this.gameplayers.length);
       for (let index = 0; index < this.gameplayers.length; index++ || ret) {
         if (this.gameplayers[index].pid == player.pid) {
@@ -129,7 +133,10 @@ export class GameSetupComponent implements OnInit {
   }
 
   startGame():void {
-    this.mpp.gameplayersalive = this.mpp.gameplayers.length;
-    this.router.navigate(['/game'])
+    if(this.mpp.gameplayers !== undefined && this.mpp.gameplayers.length > 0){
+      this.mpp.gameplayersalive = this.mpp.gameplayers.length;
+      console.log(this.mpp.gameplayersalive);
+      this.router.navigate(['/game'])
+    }
   }
 }

@@ -74,7 +74,7 @@ export class ChooseDeckComponent implements OnInit {
   }
 
   isNotUsed(did: number): boolean {
-    if (this.gameplayers !== undefined) {
+    if (this.gameplayers !== undefined && this.gameplayers !== null) {
       for (let index = 0; index < this.gameplayers.length; index++) {
         if(this.gameplayers[index].did==did){
           return false

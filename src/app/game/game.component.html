@@ -16,8 +16,8 @@
     </div>
   </div>
 
-  <div *ngIf="gameplayers?.length == 3" fxLayout="column" style="height: 100vh;">
-    <div fxLayout="row" style="height: 66vh; width: 100%;">
+  <div *ngIf="gameplayers?.length == 3" fxLayout="column" style="height: 100vh">
+    <div fxLayout="row" style="height: 66vh; width: 100%">
       <div style="width: 50vw; height: 66vh; background-color: green" fxFlex>
         <div style="display: table">
           <div style="padding: 50% 0; height: 0">
@@ -74,6 +74,107 @@
         [big]="true"
       ></mp-in-game-player>
     </div>
+  </div>
 
+  <div *ngIf="gameplayers?.length == 4" fxLayout="row" style="height: 100vh">
+    <div fxFlex fxLayout="column">
+      <div style="width: 50vw; height: 50vh; background-color: green" fxFlex>
+        <div style="display: table">
+          <div style="padding: 50% 0; height: 0">
+            <div
+              style="
+                display: block;
+                transform-origin: top left;
+                transform: rotate(90deg) translate(0,-100%);
+                margin-top: -50%;
+                white-space: nowrap;
+                width: 50vh;
+                height: 50vw;
+              "
+            >
+              <mp-in-game-player
+                [spieler]="gameplayers[0]"
+                [index]="1"
+                [big]="false"
+              ></mp-in-game-player>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 50vw; height: 50vh; background-color: green" fxFlex>
+        <div style="display: table">
+          <div style="padding: 50% 0; height: 0">
+            <div
+              style="
+                display: block;
+                transform-origin: top left;
+                transform: rotate(90deg) translate(0,-100%);
+                margin-top: -50%;
+                white-space: nowrap;
+                width: 50vh;
+                height: 50vw;
+              "
+            >
+              <mp-in-game-player
+                [spieler]="gameplayers[1]"
+                [index]="1"
+                [big]="false"
+              ></mp-in-game-player>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex fxLayout="column">
+      <div style="width: 50vw; height: 50vh; background-color: green" fxFlex>
+        <div style="display: table">
+          <div style="padding: 50% 0; height: 0">
+            <div
+              style="
+                display: block;
+                transform-origin: top left;
+                transform: rotate(-90deg) translate(-100%);
+                margin-top: -50%;
+                white-space: nowrap;
+                width: 50vh;
+                height: 50vw;
+              "
+            >
+              <mp-in-game-player
+                [spieler]="gameplayers[2]"
+                [index]="1"
+                [big]="false"
+              ></mp-in-game-player>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 50vw; height: 50vh; background-color: green" fxFlex>
+        <div style="display: table">
+          <div style="padding: 50% 0; height: 0">
+            <div
+              style="
+                display: block;
+                transform-origin: top left;
+                transform: rotate(-90deg) translate(-100%);
+                margin-top: -50%;
+                white-space: nowrap;
+                width: 50vh;
+                height: 50vw;
+              "
+            >
+              <mp-in-game-player
+                [spieler]="gameplayers[3]"
+                [index]="1"
+                [big]="false"
+              ></mp-in-game-player>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>

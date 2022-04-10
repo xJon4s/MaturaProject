@@ -32,6 +32,7 @@ export class MppService {
     new Deck(7, 'bo', 'jajajaa', 40, 1),
   ];
 
+  reset:boolean = false;
   gameplayers!: Array<Gameplayer>;
   gameplayersalive!:number;
   activePlayer:Gameplayer | null = null;
@@ -54,7 +55,7 @@ export class MppService {
   }
 
   getGameplayers(): Array<Gameplayer> {
-    return this.gameplayers;
+    return this.gameplayers as Array<Gameplayer>;
   }
 
   addGamePlayer(pid: number, did: number) {
@@ -71,16 +72,16 @@ export class MppService {
   }
 
   removeGamePlayer(toBeRemoved: Gameplayer): void {
-    for (let index = 0; index < this.gameplayers.length; index++) {
-      if (toBeRemoved.pid == this.gameplayers[index].pid) {
-        this.gameplayers.splice(index,1);
+    for (let index = 0; index < (this.gameplayers as Gameplayer[]).length; index++) {
+      if (toBeRemoved.pid == (this.gameplayers as Gameplayer[])[index].pid) {
+        (this.gameplayers as Gameplayer[]).splice(index,1);
         break;
       }
     }
   }
 
   findWinnerGamePlayer(): Gameplayer | null{
-    const gameplayersalive = this.gameplayers.filter((playerssss) => playerssss.alive);
+    const gameplayersalive = (this.gameplayers as Gameplayer[]).filter((playerssss) => playerssss.alive);
     if(gameplayersalive.length == 1){
       return gameplayersalive[0];
     }else{
@@ -90,7 +91,7 @@ export class MppService {
   }
 
   findWinnerPlayer(): Player{
-    const a:number = this.gameplayers.filter((playerssss) => playerssss.alive)[0].pid;
+    const a:number = (this.gameplayers as Gameplayer[]).filter((playerssss) => playerssss.alive)[0].pid;
     return this.players.filter((playersss) => playersss.pid == a)[0];
   }
 }

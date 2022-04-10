@@ -69,16 +69,19 @@ export class InGamePlayerComponent implements OnInit {
               break;
 
             case 3:
+              //if active player nix
+              //if no then die
               this.gameFinish();
               break;
 
             case 4:
               if(
-                this.mpp.activePlayer?.pid == this.spieler.pid){
-                  this.spieler.deltDmg(-this.spieler.lp);
+                this.mpp.activePlayer?.pid === this.spieler.pid){
                   this.iconname = "skull";
                   this.spieler.die();
+                  console.log("gameplayersalive:" + this.mpp.gameplayersalive + "by" + this.spieler.pid);
                   this.mpp.gameplayersalive -= 1;
+                  console.log("gameplayersalive:" + this.mpp.gameplayersalive + "by" + this.spieler.pid);
                   this.mpp.emita(1);
                 }
               break;
@@ -90,23 +93,28 @@ export class InGamePlayerComponent implements OnInit {
 
         case 1:
           //When active player is finished
+
+          //dng calculated
           this.mpp.activePlayer?.dealsDmg(-this.dmgToMe);
           this.dmgToMe = 0;
 
+          //check if player is alive if not kill
           const min = Math.min.apply(Math, this.spieler._cdmg);
           console.log(min);
-          if(this.spieler.lp < 1 || this.spieler.infect < 1 || min < 1){
+          if((this.spieler.lp < 1 || this.spieler.infect < 1 || min < 1) && this.spieler.alive){
             this.spieler.deltDmg(-this.spieler.lp);
             this.iconname = "skull";
             this.spieler.die();
-            this.mpp.gameplayersalive -= 1;
+            (this.mpp.gameplayersalive as number) -= 1;
           }
           this.pointsdisplayed = this.spieler.lp;
           if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
             this.buttonsdisabled = true;
-            if(this.mpp.gameplayersalive < 2){
-              this.gameFinish();
-            }
+          }
+          //if player is the last one standing he wins
+          if((this.mpp.gameplayersalive as number) < 2 && this.mpp.activePlayer?.pid == this.spieler.pid){
+            console.log("spieler:" + this.spieler.pid);
+            this.gameFinish();
           }
           break;
         case 2:
@@ -188,6 +196,7 @@ export class InGamePlayerComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
       console.log('closed');
       if(res === null || res === undefined){
+        this.mpp.reset = true;
         this.router.navigate(['/home']);
       }else{
 
