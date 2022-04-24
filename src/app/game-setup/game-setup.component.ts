@@ -58,8 +58,6 @@ export class GameSetupComponent implements OnInit {
     if(value==undefined)
       value = "";
     this.getGameplayers();
-    console.log(this.gameplayers);
-    console.log('abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
     const filterValue = value.toLowerCase();
     const filteredplayersOne: Player[] = this.players.filter((player) =>
       player.nname.toLowerCase().includes(filterValue)
@@ -71,13 +69,10 @@ export class GameSetupComponent implements OnInit {
 
   //checks if param player is allready in use
   isAllreadyInThere(player: Player): boolean {
-    console.log('isAlreadyInThere has started');
     let ret: boolean = true;
     if (this.gameplayers !== undefined && this.gameplayers !== null) {
-      console.log(this.gameplayers.length);
       for (let index = 0; index < this.gameplayers.length; index++ || ret) {
         if (this.gameplayers[index].pid == player.pid) {
-          console.log(player.nname + '' + ret);
         ret = false;
         }
       }
@@ -129,13 +124,11 @@ export class GameSetupComponent implements OnInit {
   //emits an event to trigger Observer
   karljonas():void {
     this.stateCtrl.updateValueAndValidity({ onlySelf: false, emitEvent: true });
-    console.log("jaja")
   }
 
   startGame():void {
     if(this.mpp.gameplayers !== undefined && this.mpp.gameplayers.length > 0){
       this.mpp.gameplayersalive = this.mpp.gameplayers.length;
-      console.log(this.mpp.gameplayersalive);
       this.router.navigate(['/game'])
     }
   }

@@ -23,6 +23,10 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { GameComponent } from './game/game.component';
 import { InGamePlayerComponent, ChooseActionType, GameFinishDialog } from './in-game-player/in-game-player.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DisplayPlayerComponent } from './display-player/display-player.component';
+import { SettingComponent } from './setting/setting.component';
+import { SelectStatisticComponent } from './select-statistic/select-statistic.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -35,7 +39,10 @@ import { HttpClientModule } from '@angular/common/http';
     GameComponent,
     InGamePlayerComponent,
     ChooseActionType,
-    GameFinishDialog
+    GameFinishDialog,
+    DisplayPlayerComponent,
+    SettingComponent,
+    SelectStatisticComponent
   ],
   entryComponents: [
     ChooseActionType
@@ -55,7 +62,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
