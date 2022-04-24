@@ -12,4 +12,5 @@ export class SelectStatisticComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
 }

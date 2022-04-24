@@ -1,0 +1,17 @@
+<div>
+    <mat-form-field appearance="outline" class="MatFormFieldControl" style="width: 90%; margin-left: 5%; margin-right: 5%;margin-top: 10px;">
+      <mat-label>search a Nickname</mat-label>
+      <input matInput placeholder="Nickname" [(ngModel)]="searchTerm">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-divider></mat-divider>
+
+    <mat-list>
+      <mat-list-item *ngFor="let player of playersLike()" (click)="navigateToInspect(player.pid)">
+        <div mat-line style="font-size: large;">{{player.nname}}</div>
+        <div mat-line style="font-size: medium;">{{player.fname}} {{player.lname}}</div>
+        <mat-divider *ngIf="player !== playersLike()[playersLike().length]"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+</div>

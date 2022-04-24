@@ -27,6 +27,10 @@ import { DisplayPlayerComponent } from './display-player/display-player.componen
 import { SettingComponent } from './setting/setting.component';
 import { SelectStatisticComponent } from './select-statistic/select-statistic.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { StatisticPlayerComponent } from './statistic-player/statistic-player.component';
+import {MatListModule} from '@angular/material/list';
+import { StastisticDeckComponent } from './stastistic-deck/stastistic-deck.component';
+import { DisplayDeckComponent } from './display-deck/display-deck.component';
 
 
 @NgModule({
@@ -42,7 +46,10 @@ import {MatTabsModule} from '@angular/material/tabs';
     GameFinishDialog,
     DisplayPlayerComponent,
     SettingComponent,
-    SelectStatisticComponent
+    SelectStatisticComponent,
+    StatisticPlayerComponent,
+    StastisticDeckComponent,
+    DisplayDeckComponent
   ],
   entryComponents: [
     ChooseActionType
@@ -63,7 +70,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     ReactiveFormsModule,
     MatDialogModule,
     HttpClientModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
