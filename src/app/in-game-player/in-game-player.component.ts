@@ -26,6 +26,7 @@ export class InGamePlayerComponent implements OnInit {
   buttonsdisabled: boolean = true;
   dmgToMe: number = 0;
   pointsdisplayed!: number;
+  won:boolean = false;
   constructor(
     private mpp: MppService,
     public dialog: MatDialog,
@@ -111,13 +112,16 @@ export class InGamePlayerComponent implements OnInit {
           if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
             this.buttonsdisabled = true;
           }
+
+          this.mpp.emita(2);
+          break;
+        case 2:
           //if player is the last one standing he wins
-          if((this.mpp.gameplayersalive as number) < 2 && this.mpp.activePlayer?.pid == this.spieler.pid){
+          if((this.mpp.gameplayersalive as number) < 2 && this.mpp.activePlayer?.pid == this.spieler.pid && !this.won){
+            this.won = true;
             console.log("spieler:" + this.spieler.pid);
             this.gameFinish();
           }
-          break;
-        case 2:
           break;
 
         default:
