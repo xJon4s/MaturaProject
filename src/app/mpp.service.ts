@@ -1,5 +1,6 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Injectable, OnInit, Output } from '@angular/core';
 import { Deck } from './deck';
 import { Gameplayer } from './gameplayer';
 import { Player } from './player';
@@ -7,31 +8,14 @@ import { Player } from './player';
 @Injectable({
   providedIn: 'root',
 })
-export class MppService {
+export class MppService{
   //fetch von Datenbank
-  players: Array<Player> = [
-    new Player(0, 'Alex', 'Alex', 'Player1'),
-    new Player(1, 'Jonas', 'Jonas', 'Jonas'),
-    new Player(2, 'Elias', 'Elias', 'Player3'),
-    new Player(3, 'Michael', 'Michael', 'Player4'),
-    new Player(4, 'Christian', 'Christian', 'Player5'),
-    new Player(5, 'Mchi', 'Muchi', 'Player6'),
-    new Player(6, 'Thaler', 'Thaler', 'Player7'),
-    new Player(7, 'Dr', 'Semmpai', 'Pablos'),
-  ];
+  private players!: Array<Player>;
 
   //fetch von Datenbank
-  decks: Array<Deck> = [
-    new Deck(0, 'Kenrith', 'Midrange cEDH Combo', 28, 1),
-    new Deck(1, 'Sissey', 'Stax cEDH Lock', 29, 4),
-    new Deck(2, 'Breya', 'Aggro cEDH  Combo', 28, 4),
-    new Deck(3, 'Brago', 'Flicker', 28, 1),
-    new Deck(4, 'Arcades', 'Aggro Wall Tribal', 40, 1),
-    new Deck(5, 'Karametra', 'Enchantress', 40, 1),
-    new Deck(6, 'Muldrotha, the Gravetied', 'Value', 40, 1),
-    new Deck(7, 'bo', 'jajajaa', 40, 1),
-  ];
+  decks!: Array<Deck>;
 
+  URL:string = "http://localhost:8080";
   reset:boolean = false;
   gameplayers!: Array<Gameplayer>;
   gameplayersalive!:number;
@@ -40,7 +24,52 @@ export class MppService {
   activeAction:number | null = null;
   @Output() emitter:EventEmitter<number> = new EventEmitter();
 
-  constructor() {}
+  constructor(
+    private http:HttpClient
+  ) {}
+
+  //Sets the variables form DB
+  private setPlayers(object:any[]){
+    let temp:Array<Player> = [];
+    object.forEach(function(element){
+      temp.push(new Player(element.pid,element.fname,element.lname,element.nname));
+      console.log(element.pid);
+    });
+    this.players = temp;
+  }
+
+  //Sets the variables form DB
+  private setDecks(object:any[]){
+    let temp:Array<Deck> = [];
+    object.forEach(function(element){
+      temp.push(new Deck(element.did, element.commander,element.name,element.pid));
+      console.log(element.pid);
+    });
+    this.decks = temp;
+  }
+
+  async activateService(){
+    console.log("started");
+    console.log("started");
+    console.log("started");
+    console.log("started");
+    await this.http.get<any>(`${this.URL}/db/player`).toPromise().then(
+      res => this.setPlayers(res)
+    );
+
+    await this.http.get<any>(`${this.URL}/db/deck`).toPromise().then(
+      res => this.setDecks(res)
+    );
+  }
+
+
+  async test(){
+    console.log("started");
+    this.http.get<Object>(`${this.URL}/db/player`).subscribe(
+      res => console.log(res)
+    )
+    console.log(this.players);
+  }
 
   emita(id:number):void{
     this.emitter.emit(id);

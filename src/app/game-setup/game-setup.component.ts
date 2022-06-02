@@ -23,7 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 })
 export class GameSetupComponent implements OnInit {
   stateCtrl = new FormControl();
-  filteredPlayers: Observable<Player[]>;
+  filteredPlayers!: Observable<Player[]>;
 
   players!: Array<Player>;
   gameplayers!: Array<Gameplayer>;
@@ -36,22 +36,20 @@ export class GameSetupComponent implements OnInit {
     private router: Router,
     private location: Location,
     private mpp: MppService
-  ) {
-    this.getPlayers();
-    this.getGameplayers();
+  ) {}
 
-    this.filteredPlayers = this.stateCtrl.valueChanges.pipe(
-      startWith(''),
-      map((player) => this._filterPlayer(player))
-    );
-  }
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if(this.mpp.reset){
       this.mpp.reset = false;
       window.location.reload();
     }
+    await this.mpp.activateService();
     this.getGameplayers();
+    this.getPlayers();
+    this.filteredPlayers = this.stateCtrl.valueChanges.pipe(
+      startWith(''),
+      map((player) => this._filterPlayer(player))
+    );
   }
 
   private _filterPlayer(value: string): Player[] {
@@ -130,6 +128,8 @@ export class GameSetupComponent implements OnInit {
     if(this.mpp.gameplayers !== undefined && this.mpp.gameplayers.length > 0){
       this.mpp.gameplayersalive = this.mpp.gameplayers.length;
       this.router.navigate(['/game'])
+    }else{
+      this.mpp.test();
     }
   }
 }
