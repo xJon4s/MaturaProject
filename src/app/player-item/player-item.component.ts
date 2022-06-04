@@ -39,7 +39,6 @@ export class PlayerItemComponent implements OnInit {
     for (let index = 0; index < this.players.length; index++) {
       if(this.player.pid==this.players[index].pid){
         this.aplayer = this.players[index];
-        console.log("create temp player and deck");
         break;
       }
     }
@@ -90,7 +89,6 @@ export class DialogElementsExampleDialog {
   }
 
   karl3():void {
-    console.log("remove player");
     this.mpp.removeGamePlayer(this.data.player)
     this.dialogRef.close();
   }

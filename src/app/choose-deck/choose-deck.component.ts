@@ -63,9 +63,7 @@ export class ChooseDeckComponent implements OnInit {
   }
 
   addDeck(deck: Deck) {
-    console.log('addDeck has started with ' + deck.commander);
     if (this.isInThere(deck) >= 0) {
-      console.log('addDeck has finished');
       this.mpp.addGamePlayer(this.aplayer.pid, deck.did);
       this.router.navigate(['/game-setup']);
     } else {
@@ -88,11 +86,9 @@ export class ChooseDeckComponent implements OnInit {
 
   isInThere(deck: Deck): number {
     let deckc: string = '' + deck.commander;
-    console.log('isInThere has started with ' + deckc);
     if (this.decks != undefined) {
       for (let index = 0; index < this.decks.length; index++) {
         if (this.decks[index].did == deck.did) {
-          console.log('isInThere has finished with' + index);
           return index;
         } else {
           /*           console.log(this.players[index].nname + "!=" + deckc) */

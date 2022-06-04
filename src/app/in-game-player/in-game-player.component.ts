@@ -34,7 +34,6 @@ export class InGamePlayerComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    console.log(this.spieler.pid + '  ' + this.big);
     this.gameplayers = this.mpp.getGameplayers();
     this.players = this.mpp.getPlayers();
     this.pointsdisplayed = this.spieler.lp;
@@ -101,7 +100,6 @@ export class InGamePlayerComponent implements OnInit {
 
           //check if player is alive if not kill
           const min = Math.min.apply(Math, this.spieler._cdmg);
-          console.log(min);
           if((this.spieler.lp < 1 || this.spieler.infect < 1 || min < 1) && this.spieler.alive){
             this.spieler.deltDmg(-this.spieler.lp);
             this.iconname = "skull";
@@ -119,7 +117,6 @@ export class InGamePlayerComponent implements OnInit {
           //if player is the last one standing he wins
           if((this.mpp.gameplayersalive as number) < 2 && this.mpp.activePlayer?.pid == this.spieler.pid && !this.won){
             this.won = true;
-            console.log("spieler:" + this.spieler.pid);
             this.gameFinish();
           }
           break;
@@ -168,7 +165,6 @@ export class InGamePlayerComponent implements OnInit {
       dialogRef.afterClosed().subscribe((res) => {
         console.log('closed');
         if (res !== null && res !== undefined) {
-          console.log('changeIcon');
           console.log(res);
           this.mpp.activeAction = res;
           this.mpp.activePlayer = this.spieler;
@@ -186,7 +182,6 @@ export class InGamePlayerComponent implements OnInit {
       await new Promise((f) => setTimeout(f, 100));
       this.iconname = 'sword';
       this.spieler = this.mpp.activePlayer as Gameplayer;
-      console.log(this.spieler);
       this.mpp.activePlayer = null;
       this.mpp.activePlayerIndex = null;
       this.mpp.activeAction = null;
@@ -243,9 +238,7 @@ export class GameFinishDialog implements OnInit{
     this.winnerg = this.mpp.findWinnerGamePlayer() as Gameplayer;
     this.winnerp = this.mpp.findWinnerPlayer();
 
-    console.log("sendit");
     await this.mpp.sendIt();
-    console.log("sendited");
 
     this.button = false;
   }

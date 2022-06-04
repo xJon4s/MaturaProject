@@ -66,7 +66,9 @@ export class MppService{
     }).toPromise();
 
     let lauf = 1;
+
     while (lauf<this.gameplayers.length) {
+      console.log("furz")
       this.http.post<any>(`${this.URL}/db/game`,{
         gid: result[0].AUTO_INCREMENT,
         pid: this.gameplayers[lauf].pid,
@@ -77,17 +79,6 @@ export class MppService{
       })
       lauf++;
     }
-
-    console.log(result[0].AUTO_INCREMENT);
-  }
-
-
-  async test(){
-    console.log("started");
-    this.http.get<Object>(`${this.URL}/db/player`).subscribe(
-      res => console.log(res)
-    )
-    console.log(this.players);
   }
 
   emita(id:number):void{
@@ -108,14 +99,10 @@ export class MppService{
 
   addGamePlayer(pid: number, did: number) {
     if (this.gameplayers == undefined) {
-      console.log(this.gameplayers);
       let temp: Array<Gameplayer> = [new Gameplayer(pid, did)];
       this.gameplayers = temp;
-      console.log('created new array');
     } else {
-      console.log(this.gameplayers);
       this.gameplayers.push(new Gameplayer(pid, did));
-      console.log('added new player');
     }
   }
 

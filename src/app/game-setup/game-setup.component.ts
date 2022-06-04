@@ -80,10 +80,8 @@ export class GameSetupComponent implements OnInit {
 
   //Opens choose-deck-component with parameter of playerid
   addPlayer(player: Player): void {
-    console.log('addPlayer has started');
     let test: number = this.isInThere(player);
     if (this.isInThere(player) >= 0) {
-      console.log('addPlayer has finished, everything ok');
       this.router.navigate(['/game-setup/', this.isInThere(player)]);
     } else {
       console.log('ganz laut schreien');
@@ -98,14 +96,12 @@ export class GameSetupComponent implements OnInit {
     if (this.players != undefined) {
       for (let index = 0; index < this.players.length; index++) {
         if (this.players[index].nname == player) {
-          console.log('it is');
           return index;
         } else {
           /* console.log(this.players[index].nname + "!=" + player); */
         }
       }
     }
-    console.log('it is not');
     return -1;
   }
 
@@ -128,8 +124,6 @@ export class GameSetupComponent implements OnInit {
     if(this.mpp.gameplayers !== undefined && this.mpp.gameplayers.length > 0){
       this.mpp.gameplayersalive = this.mpp.gameplayers.length;
       this.router.navigate(['/game'])
-    }else{
-      this.mpp.test();
     }
   }
 }
