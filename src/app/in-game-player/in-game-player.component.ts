@@ -198,7 +198,6 @@ export class InGamePlayerComponent implements OnInit {
       autoFocus: false,
     });
     dialogRef.afterClosed().subscribe((res) => {
-      console.log('closed');
       if(res === null || res === undefined){
         this.mpp.reset = true;
         this.router.navigate(['/home']);
@@ -234,14 +233,21 @@ export class ChooseActionType {
 export class GameFinishDialog implements OnInit{
   winnerg!:Gameplayer;
   winnerp!:Player;
+  button:boolean = true;
   constructor(
     public dialogRef: MatDialogRef<GameFinishDialog>,
     public mpp:MppService,
     public router:Router
   ) {}
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.winnerg = this.mpp.findWinnerGamePlayer() as Gameplayer;
     this.winnerp = this.mpp.findWinnerPlayer();
+
+    console.log("sendit");
+    await this.mpp.sendIt();
+    console.log("sendited");
+
+    this.button = false;
   }
 
   finish(){

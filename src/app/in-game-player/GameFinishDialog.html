@@ -7,8 +7,7 @@
 
   <div>
     <div mat-dialog-content fxLayout="row" fxLayoutAlign="space-around center" style="height: 100px;">
-      <button mat-raised-button fxFlex color="primary" style="margin: 5px;" (click)="seeStats()">See statistics </button>
-      <button mat-raised-button fxFlex color="primary" (click)="finish()"> Finish</button>
+      <button mat-raised-button fxFlex color="primary" (click)="finish()" [disabled]="button"> Finish</button>
     </div>
   </div>
 

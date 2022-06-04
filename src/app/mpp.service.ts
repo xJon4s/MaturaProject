@@ -33,7 +33,6 @@ export class MppService{
     let temp:Array<Player> = [];
     object.forEach(function(element){
       temp.push(new Player(element.pid,element.fname,element.lname,element.nname));
-      console.log(element.pid);
     });
     this.players = temp;
   }
@@ -43,16 +42,11 @@ export class MppService{
     let temp:Array<Deck> = [];
     object.forEach(function(element){
       temp.push(new Deck(element.did, element.commander,element.name,element.pid));
-      console.log(element.pid);
     });
     this.decks = temp;
   }
 
   async activateService(){
-    console.log("started");
-    console.log("started");
-    console.log("started");
-    console.log("started");
     await this.http.get<any>(`${this.URL}/db/player`).toPromise().then(
       res => this.setPlayers(res)
     );
@@ -60,6 +54,31 @@ export class MppService{
     await this.http.get<any>(`${this.URL}/db/deck`).toPromise().then(
       res => this.setDecks(res)
     );
+  }
+
+  async sendIt() {
+    let result = await this.http.post<any>(`${this.URL}/db/game`,{
+      pid: this.gameplayers[0].pid,
+      did: this.gameplayers[0].did,
+      gwin: this.gameplayers[0].alive,
+      gdmg: this.gameplayers[0].dmg,
+      gkills: this.gameplayers[0].kills
+    }).toPromise();
+
+    let lauf = 1;
+    while (lauf<this.gameplayers.length) {
+      this.http.post<any>(`${this.URL}/db/game`,{
+        gid: result[0].AUTO_INCREMENT,
+        pid: this.gameplayers[lauf].pid,
+        did: this.gameplayers[lauf].did,
+        gwin: this.gameplayers[lauf].alive,
+        gdmg: this.gameplayers[lauf].dmg,
+        gkills: this.gameplayers[lauf].kills
+      })
+      lauf++;
+    }
+
+    console.log(result[0].AUTO_INCREMENT);
   }
 
 

@@ -18,7 +18,8 @@ export class StatisticPlayerComponent implements OnInit {
     private router:Router
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.mpp.activateService();
     this.getPlayers();
     this.searchTerm = "";
   }
@@ -28,9 +29,15 @@ export class StatisticPlayerComponent implements OnInit {
   }
 
   playersLike(): Array<Player> {
-    return this.players.filter(
-      player => player.nname.toUpperCase().includes(this.searchTerm?.toUpperCase())
-    );
+    let ret:Array<Player> = [];
+    try {
+      ret =  this.players.filter(
+        player => player.nname.toUpperCase().includes(this.searchTerm?.toUpperCase())
+      );
+    } catch (error) {
+      console.log("male");
+    }
+    return ret;
   }
 
   navigateToInspect(id:number) {

@@ -18,7 +18,8 @@ export class StastisticDeckComponent implements OnInit {
     private router:Router
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.mpp.activateService();
     this.getDecks();
     this.searchTerm="";
   }
@@ -27,9 +28,15 @@ export class StastisticDeckComponent implements OnInit {
   }
 
   decksLike(): Array<Deck> {
-    return this.decks.filter(
-      deck => deck.commander.toUpperCase().includes(this.searchTerm?.toUpperCase())
-    );
+    let ret:Array<Deck> = [];
+    try {
+      ret = this.decks.filter(
+        deck => deck.commander.toUpperCase().includes(this.searchTerm?.toUpperCase())
+      );
+    } catch (error) {
+      "male"
+    }
+    return ret;
   }
 
   navigateToInspect(id:number) {
