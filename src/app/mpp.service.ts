@@ -56,6 +56,7 @@ export class MppService{
     );
   }
 
+  //sends game to DB
   async sendIt() {
     let result = await this.http.post<any>(`${this.URL}/db/game`,{
       pid: this.gameplayers[0].pid,
@@ -65,24 +66,40 @@ export class MppService{
       gkills: this.gameplayers[0].kills
     }).toPromise();
 
+    console.log("autoincrement:" + result[0].AUTO_INCREMENT);
+    console.log("gameplayers:" + this.gameplayers.length);
     let lauf = 1;
 
     while (lauf<this.gameplayers.length) {
       console.log("furz")
-      this.http.post<any>(`${this.URL}/db/game`,{
+      await this.http.post<any>(`${this.URL}/db/games`,{
         gid: result[0].AUTO_INCREMENT,
         pid: this.gameplayers[lauf].pid,
         did: this.gameplayers[lauf].did,
         gwin: this.gameplayers[lauf].alive,
         gdmg: this.gameplayers[lauf].dmg,
         gkills: this.gameplayers[lauf].kills
-      })
+      }).toPromise();
       lauf++;
     }
   }
 
   emita(id:number):void{
     this.emitter.emit(id);
+  }
+
+  //returns a player indentifyed by its pid
+  getPlayer(id:number): Player|null{
+    let ret:Player|null = null;
+    let players = this.getPlayers();
+    for (let index = 0; index < players.length; index++) {
+      if(players[index].pid == id){
+        ret = players[index]
+        break;
+      }
+    }
+
+    return ret;
   }
 
   getPlayers(): Array<Player> {
