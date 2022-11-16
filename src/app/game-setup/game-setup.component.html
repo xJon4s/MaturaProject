@@ -18,13 +18,13 @@
 
 <div style="background-color: rgb(255, 255, 255); height: 30%;" fxLayoutAlign="center start">
   <form class="example-form">
-    <mat-form-field class="example-full-width" appearance="fill" (mouseenter)="karljonas()">
-      <mat-label (mouseenter)="karljonas()">Search nickname</mat-label>
+    <mat-form-field class="example-full-width" appearance="fill" (onclick)="karljonas()">
+      <mat-label (onclick)="karljonas()">Search nickname</mat-label>
       <input matInput
              aria-label="nickname"
              [matAutocomplete]="auto"
              [formControl]="stateCtrl"
-             (mouseenter)="karljonas()">
+             (onclick)="karljonas()">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)='addPlayer($event.option.value)'>
         <mat-option *ngFor="let player of filteredPlayers | async" [value]="player.nname">
           <span>{{player.nname}}</span> |
