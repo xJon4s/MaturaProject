@@ -15,7 +15,7 @@ export class MppService{
   //fetch von Datenbank
   decks!: Array<Deck>;
 
-  URL:string = "https://furz.ddns.net";
+  URL:string = "http://localhost:8080";
   reset:boolean = false;
   gameplayers!: Array<Gameplayer>;
   gameplayersalive!:number;
