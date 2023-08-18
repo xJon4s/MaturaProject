@@ -12,8 +12,7 @@ export class DisplayPlayerComponent implements OnInit {
   displayedplayer!: Player;
 
   constructor(private mpp: MppService, private route: ActivatedRoute) {
-    //this.displayedplayer = this.mpp.getPlayer(this.router.url) as Player;
-    console.log(this.route.snapshot.params.code)
+    this.displayedplayer = this.mpp.getPlayer(this.route.snapshot.params.code) as Player;
   }
 
   ngOnInit(): void {}

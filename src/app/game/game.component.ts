@@ -27,6 +27,13 @@ export class GameComponent implements OnInit {
         element._cdmg[jndex] = 21;
       }
     }
+
+    this.mpp.emitter.subscribe((res)=>{
+      if(res == 6){
+        this.getGameplayers();
+        console.log("gameplayers updated");
+      }
+    });
   }
 
   getGameplayers():void {

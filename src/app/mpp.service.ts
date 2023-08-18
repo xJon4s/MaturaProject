@@ -47,13 +47,19 @@ export class MppService{
   }
 
   async activateService(){
+    if(this.players == undefined && this.furztrue())
     await this.http.get<any>(`${this.URL}/db/player`).toPromise().then(
-      res => this.setPlayers(res)
+      res => {console.log(res);this.setPlayers(res);}
     );
-
+    if(this.decks == undefined && this.furztrue())
     await this.http.get<any>(`${this.URL}/db/deck`).toPromise().then(
       res => this.setDecks(res)
     );
+  }
+
+  furztrue():boolean{
+    console.log("geat")
+    return true;
   }
 
   //sends game to DB
@@ -71,9 +77,9 @@ export class MppService{
     let lauf = 1;
 
     while (lauf<this.gameplayers.length) {
-      console.log("furz")
+      console.log("furz" + lauf + "<" + this.gameplayers.length)
       await this.http.post<any>(`${this.URL}/db/games`,{
-        gid: result[0].AUTO_INCREMENT,
+        gid: result[0].AUTO_INCREMENT-1,
         pid: this.gameplayers[lauf].pid,
         did: this.gameplayers[lauf].did,
         gwin: this.gameplayers[lauf].alive,
@@ -85,6 +91,7 @@ export class MppService{
   }
 
   emita(id:number):void{
+    console.log("emita:" , id);
     this.emitter.emit(id);
   }
 
@@ -128,6 +135,35 @@ export class MppService{
       if (toBeRemoved.pid == (this.gameplayers as Gameplayer[])[index].pid) {
         (this.gameplayers as Gameplayer[]).splice(index,1);
         break;
+      }
+    }
+  }
+
+  //Changes the position of two players wia their position in the gameplayers array
+  changePosition(pid:number):void{
+    let activeplayerPosition = 0;
+    let otherplyerPosition = 0;
+    let otherPlyer;
+    for (let index = 0; index < this.gameplayers.length; index++) {
+      const element = this.gameplayers[index];
+      if(element.pid == pid){
+        otherplyerPosition = index;
+        otherPlyer = element;
+      }else if(element.pid == this.activePlayer?.pid){
+        activeplayerPosition = index;
+      }
+    }
+
+    this.gameplayers[activeplayerPosition] = otherPlyer as Gameplayer;
+    this.gameplayers[otherplyerPosition] = this.activePlayer as Gameplayer;
+    this.emita(6);
+  }
+
+  //kills all other players
+  killAllJediChildren(pid:number):void{
+    for (let index = 0; index < this.gameplayers.length; index++) {
+      if(this.gameplayers[index].pid !== pid){
+        this.gameplayers[index].die();
       }
     }
   }

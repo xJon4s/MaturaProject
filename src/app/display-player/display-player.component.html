@@ -1,15 +1,22 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 5px;">
-  <a routerLink="/home"
-    ><button mat-fab color="primary">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-  </a>
-
-
-  <div>
-    <mat-card>
-      <mat-card-title>{{this}}</mat-card-title>
-      <mat-card-subtitle>Start</mat-card-subtitle>
-    </mat-card>
+<div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 3%;">
+  <div flex style="width: 100%;" fxLayout="row">
+    <a routerLink="/home" flex>
+      <button mat-fab color="primary">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </a>
+    <div flex style="margin-top: 0;">
+      <h1 style="text-align: center; margin-top: 4%">
+        stats about {{ this.displayedplayer.fname }}
+      </h1>
+    </div>
+    
   </div>
+  
+
+
+  <div style="background-color: purple; height: 50px; width: 50px;" flex>
+
+  </div>  
+
 </div>

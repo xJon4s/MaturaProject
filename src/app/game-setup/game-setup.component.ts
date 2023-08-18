@@ -4,6 +4,9 @@ import {
   Input,
   OnInit,
   SystemJsNgModuleLoader,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectorRef
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -21,12 +24,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   templateUrl: './game-setup.component.html',
   styleUrls: ['./game-setup.component.scss'],
 })
-export class GameSetupComponent implements OnInit {
+export class GameSetupComponent implements OnInit, AfterViewInit, OnDestroy {
   stateCtrl = new FormControl();
   filteredPlayers!: Observable<Player[]>;
 
   players!: Array<Player>;
-  gameplayers!: Array<Gameplayer>;
+  gameplayers: Array<Gameplayer> = [];
   gameplayerslength:number = 0;
 
   /* @Input() eingabe!:string; */
@@ -35,21 +38,35 @@ export class GameSetupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private mpp: MppService
+    private mpp: MppService,
+    private cdr: ChangeDetectorRef
   ) {}
-
-  async ngOnInit(): Promise<void> {
+  ngOnDestroy(): void {
+    this.players = [];
+    this.gameplayers = [];
+  }
+  async ngAfterViewInit(): Promise<void> {
+    
+    await this.mpp.activateService();
     if(this.mpp.reset){
       this.mpp.reset = false;
       window.location.reload();
     }
-    await this.mpp.activateService();
     this.getGameplayers();
     this.getPlayers();
-    this.filteredPlayers = this.stateCtrl.valueChanges.pipe(
-      startWith(''),
-      map((player) => this._filterPlayer(player))
-    );
+
+    try {
+      this.filteredPlayers = this.stateCtrl.valueChanges.pipe(
+        startWith(''),
+        map((player) => this._filterPlayer(player))
+      );
+    } catch (e) {
+      console.log("filzterdings" + e);
+    } 
+  }
+
+  async ngOnInit() {
+    
   }
 
   private _filterPlayer(value: string): Player[] {
@@ -110,18 +127,25 @@ export class GameSetupComponent implements OnInit {
   }
 
   getGameplayers(): void {
-    if (this.filteredPlayers !== undefined) {
-      this.gameplayers = this.mpp.getGameplayers();
-    }
+    this.gameplayers = this.mpp.getGameplayers();
   }
+
+  //recieve event emitted from child to update players
+  updatePlayer(event: string):void{
+    console.log("gamesetup: updatePlayer" + event);
+    this.karljonas();
+  }
+
+
 
   //emits an event to trigger Observer
   karljonas():void {
+    console.log("game.setup: karljonas");
     this.stateCtrl.updateValueAndValidity({ onlySelf: false, emitEvent: true });
   }
 
   startGame():void {
-    if(this.mpp.gameplayers !== undefined && this.mpp.gameplayers.length > 0){
+    if(this.mpp.gameplayers !== undefined && this.mpp.gameplayers.length > 1){
       this.mpp.gameplayersalive = this.mpp.gameplayers.length;
       this.router.navigate(['/game'])
     }

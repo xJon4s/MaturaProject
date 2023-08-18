@@ -46,10 +46,12 @@ export class InGamePlayerComponent implements OnInit {
       switch (res) {
         case 0:
           //When active player has choosen his action
+          //enable dmg buttons if needed
           if (
             this.mpp.activePlayer?.pid !== this.spieler.pid &&
             this.mpp.activeAction !== 4 &&
-            this.spieler.alive
+            this.mpp.activeAction !== 5 &&
+            this.spieler.alive 
           ) {
             this.buttonsdisabled = false;
           }
@@ -69,9 +71,15 @@ export class InGamePlayerComponent implements OnInit {
               break;
 
             case 3:
-              //if active player nix
-              //if no then die
-              this.gameFinish();
+              //if active close else nothing
+              if(this.mpp.activePlayer?.pid == this.spieler.pid){
+                this.mpp.killAllJediChildren(this.spieler.pid);
+                console.log("active player went infinit" + this.spieler.pid);
+                this.gameFinish();
+              }else{
+                console.log("nonactive player did nothing" + this.spieler.pid);
+              }
+              
               break;
 
             case 4:
@@ -86,6 +94,14 @@ export class InGamePlayerComponent implements OnInit {
                 }
               break;
 
+            case 5:
+              if (this.mpp.activePlayer?.pid === this.spieler.pid) {
+                this.iconname = "finish";
+              }else{
+                this.iconname = "change";
+              }
+            break;
+
             default:
               break;
           }
@@ -94,7 +110,7 @@ export class InGamePlayerComponent implements OnInit {
         case 1:
           //When active player is finished
 
-          //dng calculated
+          //dmg calculated
           this.mpp.activePlayer?.dealsDmg(-this.dmgToMe);
           this.dmgToMe = 0;
 
@@ -106,9 +122,18 @@ export class InGamePlayerComponent implements OnInit {
             this.spieler.die();
             (this.mpp.gameplayersalive as number) -= 1;
           }
+
+          //chnageposition
+          //gets players sets points sets name
+          this.gameplayers = this.mpp.getGameplayers();
+          this.players = this.mpp.getPlayers();
           this.pointsdisplayed = this.spieler.lp;
-          if (this.mpp.activePlayer?.pid !== this.spieler.pid) {
-            this.buttonsdisabled = true;
+          this.buttonsdisabled = true;
+          this.iconname = "sword";
+          for (let index = 0; index < this.players.length; index++) {
+            if (this.players[index].pid == this.spieler.pid) {
+              this.spielera = this.players[index];
+            }
           }
 
           this.mpp.emita(2);
@@ -158,6 +183,7 @@ export class InGamePlayerComponent implements OnInit {
 
   //when a player presses the fight button
   async fight() {
+    console.log("fight");
     if (this.iconname == 'sword') {
       const dialogRef = this.dialog.open(ChooseActionType, {
         autoFocus: false,
@@ -175,12 +201,15 @@ export class InGamePlayerComponent implements OnInit {
           //console.log("theoretisch 2tes");
         }
       });
-    } else if(this.iconname == 'skull'){
-
+    } else if(this.iconname == 'change'){
+      console.log("testestetstettd");
+      this.mpp.changePosition(this.spieler.pid);
+      await new Promise((f) => setTimeout(f, 100));
+      this.mpp.emita(1);
     }else{
+      this.iconname = 'sword';
       this.mpp.emita(1);
       await new Promise((f) => setTimeout(f, 100));
-      this.iconname = 'sword';
       this.spieler = this.mpp.activePlayer as Gameplayer;
       this.mpp.activePlayer = null;
       this.mpp.activePlayerIndex = null;

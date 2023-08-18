@@ -1,3 +1,4 @@
+import { MppService } from '../mpp.service';
 import { Player } from './../player';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
 
-  constructor() { }
+  constructor(private mpp: MppService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.mpp.activateService();
   }
 
   startGameSetUp():void {}

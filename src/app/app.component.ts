@@ -13,9 +13,15 @@ export class AppComponent {
     private matIconRegistry: MatIconRegistry,
     private domSanitzer: DomSanitizer
   ) {
+
+
     this.matIconRegistry.addSvgIcon(
       'sword',
       this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/sword.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'change',
+      this.domSanitzer.bypassSecurityTrustResourceUrl('assets/icons/change.svg')
     );
     this.matIconRegistry.addSvgIcon(
       'infect',

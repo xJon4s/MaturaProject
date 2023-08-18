@@ -24,7 +24,7 @@
              aria-label="nickname"
              [matAutocomplete]="auto"
              [formControl]="stateCtrl"
-             (onclick)="karljonas()">
+             (click)="karljonas()">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)='addPlayer($event.option.value)'>
         <mat-option *ngFor="let player of filteredPlayers | async" [value]="player.nname">
           <span>{{player.nname}}</span> |
@@ -38,7 +38,9 @@
 <mat-divider style="margin:10px"></mat-divider>
 
 <div style="background-color: rgb(255, 255, 255);">
-  <mp-player-item *ngFor="let item of gameplayers" [player]="item"></mp-player-item>
+  <div *ngFor="let item of gameplayers"> 
+    <mp-player-item [player]="item" (uploaded)="updatePlayer($event)"></mp-player-item>
+  </div>
 </div>
 
 </div>

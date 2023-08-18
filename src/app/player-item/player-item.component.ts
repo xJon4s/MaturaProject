@@ -1,7 +1,7 @@
 import { Deck } from './../deck';
 import { MppService } from './../mpp.service';
 import { Player } from './../player';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { Gameplayer } from '../gameplayer';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Data } from '@angular/router';
@@ -23,6 +23,8 @@ export class PlayerItemComponent implements OnInit {
   gameplayers!:Array<Gameplayer>;
   aplayer!:Player;
   adeck!:Deck;
+
+  @Output() uploaded:EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private mpp: MppService,
     public dialog: MatDialog
@@ -51,9 +53,19 @@ export class PlayerItemComponent implements OnInit {
     }
   }
 
+
+  //opens dialog to check if a player is to be removed
   karl():void {
     const dialogRef = this.dialog.open(DialogElementsExampleDialog, {
       data: {player: this.player},
+    });
+
+    dialogRef.afterClosed().subscribe((res)=> {
+      if(res == "update")
+      {
+        this.uploaded.emit("update");
+        console.log("player-item: emitted")
+      }
     });
   }
 
@@ -85,12 +97,12 @@ export class DialogElementsExampleDialog {
 
 
   karl2():void {
-    this.dialogRef.close();
+    this.dialogRef.close('dont update');
   }
 
   karl3():void {
-    this.mpp.removeGamePlayer(this.data.player)
-    this.dialogRef.close();
+    this.mpp.removeGamePlayer(this.data.player);
+    this.dialogRef.close('update');
   }
 
 }
